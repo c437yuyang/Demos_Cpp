@@ -1,0 +1,33 @@
+// 18_01_继承保护级别不同的成员.cpp : 定义控制台应用程序的入口点。
+//
+
+
+#include "stdafx.h"
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+
+
+int main()
+{
+	{
+		//修改const的值后
+		const int i = 0;
+		int *j = (int *)&i;
+		*j = 1;
+		printf("%d,%d", i, *j); //c++里面还是0,1,C里面是1,1
+		//C++中的常量折叠：指const变量（即常量）值 放在编译器的符号表中 ，计算时编译器直接从表中取值，省去了访问内存的时间，从而达到了优化。
+		//	具体可以看这个：
+		//	http ://blog.csdn.net/heyabo/article/details/8745942
+
+		//分析：C语言中的const是运行时const，编译时只是定义，在运行才会初始化。
+		// C语言中const变量不能用于成为数组长度等作为编译时常量的情况，原因就在此。C语言const变量在运行时改变了是可以再次读出改变后的值的。
+		//	C++中，const变量是编译时的常量，可以向#define定义的常量一样使用。
+		//  故C++中const变量的值在编译时就已经确定了，直接对const变量进行了值的替换，因此当const变量的值改变时，const的变量值是不会得到更新的。
+		//	这几行代码在C和C++中都会改变const变量的值，只不过C++中const变量在编译的时候已经确定了，而C中的const变量可以在运行时改变后再次读取。以下代码核实了C++中的const变量确实被改变了。
+	}
+	system("pause");
+	return 0;
+}
