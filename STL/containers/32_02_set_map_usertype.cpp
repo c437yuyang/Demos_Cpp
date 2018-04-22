@@ -38,6 +38,25 @@ public:
 	}
 };
 
+//按照指针地址进行hash
+class Widget_Ptr_Hash
+{
+public:
+	size_t operator()(const Widget* w) const
+	{
+		return std::hash<int>()((int)w);
+	}
+};
+
+class Widget_Ptr_Equal :public std::binary_function<Widget, Widget, bool>
+{
+public:
+	bool operator()(const Widget*left, const Widget*right) const
+	{
+		return left == right;
+	}
+};
+
 
 //按照内容进行hash
 class Widget_Datum_Hash
@@ -72,7 +91,7 @@ class Widget_Complex_Hash
 public:
 	size_t operator()(const Widget_Complex& w) const
 	{
-		return std::hash<int>()(w.data) 
+		return std::hash<int>()(w.data)
 			^ std::hash<int>()(w.data1)
 			^ std::hash<std::string>()(w.str_data_);
 	}
@@ -91,6 +110,20 @@ int main()
 	w_hash_set.insert(w3);
 
 	assert(w_hash_set.find(w1) == w_hash_set.end()); //找不到的，因为加进去的时候拷贝了
+
+	//std::unordered_set<Widget&, Widget_MemAddr_Hash, Widget_MemAddr_Equal> w_hash_set_ref;
+	//报错,不能用引用，因为里面的实现会有指向这个的指针的typedef，不能有指向引用的指针
+	//因此C++里面是不能像java一样，按照内存地址来做hash的吧？
+	
+	
+	//唯一的办法是用指针???
+	//使用指针的例子
+	std::unordered_set<Widget*, Widget_Ptr_Hash, Widget_Ptr_Equal> w_hash_set_ptr;
+	w_hash_set_ptr.insert(&w1);
+	w_hash_set_ptr.insert(&w2);
+	w_hash_set_ptr.insert(&w3);
+	assert(w_hash_set_ptr.find(&w1) != w_hash_set_ptr.end()); //现在就是找得到的了
+
 
 	std::unordered_set<Widget, Widget_Datum_Hash, Widget_Datum_Equal> w_hash_set1;
 	w_hash_set1.insert(w1);
