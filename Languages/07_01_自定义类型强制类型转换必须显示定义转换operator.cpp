@@ -7,10 +7,13 @@ using namespace std;
 
 class Widget
 {
-public:
+  public:
 	int _val = 1;
-	operator int()// 必须定义了运算符才能够强制转换，隐式转换的话就是有一个非explicit的构造函数，接受一个int类型的参数
+	operator int()
 	{
+		// 必须定义了运算符才能够强制转换，
+		//隐式转换的话就是有一个非explicit的构造函数，接受一个int类型的参数
+		//注意，是没有返回值的，operator int()本身就代表返回int的含义了
 		return _val;
 	}
 };
@@ -21,7 +24,5 @@ int main()
 	int i = static_cast<int>(w);
 	cout << i << endl;
 
-
-    return 0;
+	return 0;
 }
-

@@ -23,20 +23,20 @@ int main()
 		{
 
 		}; //1
-		assert(sizeof(A)==sizeof(A1)==sizeof(B)==1);
+		assert(sizeof(A) == sizeof(A1) == sizeof(B) == 1);
 	}
 
 	{
 		//【Exp.001-虚继承】
 		class A
 		{
-		  public:
+		public:
 			int a;
 		}; //sizeof(A)=4
 
 		class B : virtual public A
 		{
-		  public:
+		public:
 			int b;
 		}; //sizeof(B)=4(A副本)+4(虚表指针)+4(自己变量)=12
 
@@ -52,7 +52,7 @@ int main()
 	{
 		class A
 		{
-		  public:
+		public:
 			int a;
 		}; //sizeof(A) = 4
 
@@ -109,11 +109,11 @@ int main()
 		cout << "A=" << sizeof(A) << endl; //result=1  空类所占空间的大小为 1
 		cout << "B=" << sizeof(B) << endl; //result=8  1+4   对齐 8
 		cout << "C=" << sizeof(C) << endl; //result=8  1+1+4 对齐 8
-		cout << "D=" << sizeof(D) << endl; //result=12 C的副本+D本身=8+4=12
+		cout << "D=" << sizeof(D) << endl; //result=12 C的副本+D本身(A是空类)=8+4=12
 		cout << "E=" << sizeof(E) << endl; //result=20 B的副本+C的副本+E本身=8+8+4=20
-										   //①没有继承的时候，存在虚函数则需要加上虚指针，如果有多个也只需要加上一个，因为只有一个虚指针；
-										   //②对于普通继承，类D和类E中自己的虚函数，大小为0，因为，它没有虚表；
-										   //③对于虚继承中，派生类中存在一个或多个虚函数的时候，它本身就有一个虚表，指向自己的虚表，所以要加4。
+																			 //①没有继承的时候，存在虚函数则需要加上虚指针，如果有多个也只需要加上一个，因为只有一个虚指针；
+																			 //②对于普通继承，类D和类E中自己的虚函数，大小为0，因为，它没有虚表；
+																			 //③对于虚继承中，派生类中存在一个或多个虚函数的时候，它本身就有一个虚表，指向自己的虚表，所以要加4。
 	}
 
 	//【Exp.004 - 虚继承（多重继承和虚函数）】
@@ -125,31 +125,31 @@ int main()
 
 		class Base1 : virtual public CommonBase
 		{
-		  public:
+		public:
 			virtual void print1() {}
 			virtual void print2() {}
 
-		  private:
+		private:
 			int b1;
 		}; //4副本+4虚指针+4自身+4(虚继承+虚函数构成指针多一个)=16
 
 		class Base2 : virtual public CommonBase
 		{
-		  public:
+		public:
 			virtual void dump1() {}
 			virtual void dump2() {}
 
-		  private:
+		private:
 			int b2;
 		}; //同理16
 
 		class Derived : public Base1, public Base2
 		{
-		  public:
+		public:
 			void print2() {}
 			void dump2() {}
 
-		  private:
+		private:
 			int d;
 		}; //16+16-4+4=32
 
@@ -160,25 +160,82 @@ int main()
 	{
 		class A
 		{
-		  public:
+		public:
 			virtual void aa() {}
 			virtual void aa2() {}
 
-		  private:
+		private:
 			char ch[3];
-		}; // 1+4 = 补齐 = 8
+		}; // 3+4 = 补齐 = 8
 
 		class B : virtual public A
 		{
-		  public:
+		public:
 			virtual void bb() {}
 			virtual void bb2() {}
 		}; // 8（副本）+4(虚继承)+4（虚指针） = 16
 
-		cout << "A's size is " << sizeof(A) << endl; //        4+4=8
-		cout << "B's size is " << sizeof(B) << endl; //        A的副本+4+4=16
+		cout << "A's size is " << sizeof(A) << endl; //4+4=8
+		cout << "B's size is " << sizeof(B) << endl; //A的副本(8)+4+4=16(VS是16,MingW是12)
 
-		//解析：如果不是虚继承的类，即便有虚函数也不会因此增加存储空间，如果是虚继承的类，没有虚函数就添加一个虚指针空间，有虚函数不论多少个，就添加两个虚指针空间。
+		//解析：如果不是虚继承的类，即便有虚函数也不会因此增加存储空间，如果是虚继承的类
+		//没有虚函数就添加一个虚指针空间，有虚函数不论多少个，就添加两个虚指针空间。
+		//所以这里B类如果是普通继承的话，大小就还是8
+	}
+
+	//普通继承的时候，虚函数
+	{
+		class A
+		{
+		public:
+			virtual void aa() {}
+
+		private:
+			char ch[3];
+		}; // 3+4 = 补齐 = 8
+
+		class B : public A //B继承自A，A的部分的那个vptr会指向B的vtbl，因此不需要再额外加一个了,因此sizeof(B)还是8
+		{
+		public:
+			virtual void bb() {}
+			virtual void bb2() {}
+		};
+
+		cout << "A's size is " << sizeof(A) << endl; //4+4=8
+		cout << "B's size is " << sizeof(B) << endl; //还是8
+																								 //就是上面说的:如果不是虚继承的类，即便有虚函数也不会因此增加存储空间
+	}
+
+	//程序员面试宝典11.3的例子
+	{
+		class A
+		{
+			char k[3];
+
+		public:
+			virtual void aa() {}
+		};
+
+		class B : public virtual A
+		{
+			char j[3];
+
+		public:
+			virtual void bb() {}
+			//virtual void aa() {}
+		};
+
+		class C : public virtual B
+		{
+			char i[3];
+
+		public:
+			virtual void cc() {}
+		};
+
+		cout << sizeof(A) << endl; //8
+		cout << sizeof(B) << endl; //20,如果B是virtual void aa(),就是16，目前还不知道为什么，后面看完C++模型那本书再说吧
+		cout << sizeof(C) << endl; //32
 	}
 
 	return 0;
