@@ -8,7 +8,7 @@ int main()
     cout << __TIME__ << endl; 
     cout << __DATE__ << endl; //当前时间
 
-    cout << __STDC__ << endl; //这个一般没有
+    cout << __STDC__ << endl; //C语言里面这个有
     cout << __VA_ARGS__ << endl; //这个一般没有
 
 #ifdef __cplusplus__
