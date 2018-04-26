@@ -43,10 +43,18 @@ int main()
 		// unsigned int a = 0xFFFFFFF7;
 		unsigned int a = 0xFFFFFFF7;
 		unsigned char i = (unsigned char)a; //由于是小端存储，i的值是f7
-		char *b = (char *)&a; //b指向a,但是因为是char类型，*解引用的时候也只有一个字节的数据
-		printf("%08x,%08x\n", i, *b); //a是unsigned会补零,b是有符号类型，按照符号位补充，输出0x000000f7和0xfffffff7
-		printf("%x,%x\n", i, *b); 
+		char *b = (char *)&a;				//b指向a,但是因为是char类型，*解引用的时候也只有一个字节的数据
+		printf("%08x,%08x\n", i, *b);		//a是unsigned会补零,b是有符号类型，按照符号位补充，输出0x000000f7和0xfffffff7
+		printf("%x,%x\n", i, *b);
 		printf("%d,%d\n", i, *b);
+	}
+
+
+	//格式不匹配的情况
+	{
+		printf("\n");
+		printf("%f\n", 5);   //输出0.0000，注意%f是传入double的数
+		printf("%d\n", 5.1); //输出一个很大的数
 	}
 
 	system("pause");

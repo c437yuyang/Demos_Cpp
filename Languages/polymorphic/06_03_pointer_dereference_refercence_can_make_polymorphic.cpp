@@ -1,7 +1,3 @@
-// 06_虚函数测试3_引用和指针.cpp : 定义控制台应用程序的入口点。
-//
-
-#include "stdafx.h"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -34,6 +30,7 @@ int main()
 	//vector
 	refA.printInfo();
 	pA->printInfo();
+	(*pA).printInfo(); //解引用了也是可以多态的
 
 	system("pause");
     return 0;

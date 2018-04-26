@@ -25,6 +25,5 @@ int main()
 {
     printFormat("a|%d|%c|%f", 1, 'c', 2.3f);
 
-    //所以多重继承这个东西，很取决于编译器
     return 0;
 }
