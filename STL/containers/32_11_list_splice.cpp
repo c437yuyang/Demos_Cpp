@@ -15,7 +15,7 @@ int main()
 	l2.splice(l2.end(), l1,
 		std::find(l1.begin(), l1.end(), 5),
 		std::find(l1.rbegin(), l1.rend(), 10).base() //.base()返回逆序的前一个，正序的下一个，因为迭代器区间是左闭右开
-	); //把l1中第一个5到最后一个10的范围移动到l1的末尾并从l1中删除
+	); //把l1中第一个5到最后一个10的范围移动到l2的末尾并从l1中删除
 
 	std::for_each(l1.begin(), l1.end(), [](int val) { std::cout << val << ","; });
 	std::cout << std::endl;

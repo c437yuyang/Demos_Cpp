@@ -1,7 +1,3 @@
-// 06_构造函数内调用虚函数.cpp : 定义控制台应用程序的入口点。
-//
-
-#include "stdafx.h"
 #include <iostream>
 using namespace std;
 
@@ -23,13 +19,13 @@ class Son :public Parent
 public:
 	Son()
 	{
-		printInfo();
+		//printInfo(); //不是说的在子类构造函数调用虚函数，这个是肯定没问题，能够正常调用的
+		//但是仍然不建议在这里调用，因为如果涉及到调用成员的内容，那么此时成员还没有被正确初始化，得到的是错误的值
 	}
-	void printInfo()override
+	void printInfo() override
 	{
 		cout << "Son:PrintInfo()" << endl;
 	}
-
 };
 
 int main()
