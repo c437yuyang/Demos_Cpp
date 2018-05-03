@@ -95,11 +95,7 @@
 //
 //跳过任何步骤就可能导致运行时间的崩溃，内存泄露，以及其它的意想不到的情况。如果你确实需要使用placement new，请认真遵循以上的步骤。
 
-//////////////////////////////////////////////////////////////////////////
-
-
-
-#include "stdafx.h"
+////////////////////////////////////////////////////////////////////////
 #include <iostream>
 using namespace std;
 
@@ -125,7 +121,7 @@ private:
 
 int main()
 {
-	char* buf = new char[sizeof(X)]; //分配内存，但是没有调用构造函数
+	char* buf = new char[sizeof(X)]; //分配内存(用的是new char,或者直接malloc)，但是没有调用构造函数
 	X *px = new(buf) X; //调用placement new 执行构造函数
 	px->SetNum(10); //使用对象
 	cout << px->GetNum() << endl;
