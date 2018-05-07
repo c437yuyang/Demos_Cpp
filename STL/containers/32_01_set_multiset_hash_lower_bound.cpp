@@ -58,7 +58,7 @@ int main()
 	auto it1 = iset.lower_bound(6); //lower_bound，如果存在，则返回第一个在的位置，如果不存在，返回将被插入的位置(第一个大于val的位置)
 	it1 = iset.lower_bound(7); //lower_bound，这里7就会返回10的位置，因为插入7后就会在10的位置
 	it1 = iset.upper_bound(5); //lower_bound，返回第一个大于val的位置（第一个在期望值之后的位置），这里就是返回6
-	it1 = iset.upper_bound(7); //lower_bound，不存在，返回10
+	it1 = iset.upper_bound(7); //lower_bound，不存在，返回100
 
 
 	for (auto it = iset.begin(); it != iset.end(); ++it)
