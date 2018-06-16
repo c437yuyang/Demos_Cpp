@@ -1,60 +1,58 @@
 #pragma once
-//²Î¿¼×ÔstlÔ´ÂëÆÊÎö3.2 P81
+//å‚è€ƒè‡ªstlæºç å‰–æ3.2 P81
 
-//¹¹Ôìº¯Êı()
-//Îö¹¹º¯Êı
+//æ„é€ å‡½æ•°()
+//ææ„å‡½æ•°
 //operator=()
-//¿½±´¹¹Ôìº¯Êı
+//æ‹·è´æ„é€ å‡½æ•°
 //opertor*
 //operator->
 //get()
 //release()
 
+//è‡ªå·±å†™å®Œåå‚ç…§More Effective C++ 9.2 ä¿®æ”¹çš„
 
-//×Ô¼ºĞ´Íêºó²ÎÕÕMore Effective C++ 9.2 ĞŞ¸ÄµÄ
-
-template<class T>
+template <class T>
 class auto_ptr
 {
-public:
-	explicit auto_ptr(T* pointer = 0) :pointee_(pointer) {}
+  public:
+	explicit auto_ptr(T *pointer = 0) : pointee_(pointer) {}
 	~auto_ptr() { delete pointee_; }
 
-	template<class U>
-	auto_ptr<T>& operator=(auto_ptr<U>&other)
+	template <class U>
+	auto_ptr<T> &operator=(auto_ptr<U> &other)
 	{
-		if (this != (&other)) //ÕâÀï²»ÄÜÒªÕâÒ»¾ä£¬ÊéÉÏµÄ´úÂë¶¼ÊÇ´íµÄ£¿
-		reset(other.release());
-		return *this;
-	}
-
-	auto_ptr<T>& operator=(auto_ptr<T>& other) //ÕâÀï±ØĞëÌá¹©Ö¸¶¨ÀàĞÍµÄ²ÅĞĞ²»ÖªµÀÎªÊ²Ã´£¬²»»áÈ¥µ÷ÓÃ·ºĞÍµÄcopy assignment,¶øctorÈ´¿ÉÒÔ
-	{
-		if (this != &other) //µ«ÊÇÍ¬ÀàĞÍµÄÕâÀïÊÇ¿ÉÒÔÒªµÄ
+		if (this != (&other)) //è¿™é‡Œä¸èƒ½è¦è¿™ä¸€å¥ï¼Œä¹¦ä¸Šçš„ä»£ç éƒ½æ˜¯é”™çš„ï¼Ÿ
 			reset(other.release());
 		return *this;
 	}
 
+	auto_ptr<T> &operator=(auto_ptr<T> &other) //è¿™é‡Œå¿…é¡»æä¾›æŒ‡å®šç±»å‹çš„æ‰è¡Œä¸çŸ¥é“ä¸ºä»€ä¹ˆï¼Œä¸ä¼šå»è°ƒç”¨æ³›å‹çš„copy assignment,è€Œctorå´å¯ä»¥
+	{
+		if (this != &other) //ä½†æ˜¯åŒç±»å‹çš„è¿™é‡Œæ˜¯å¯ä»¥è¦çš„
+			reset(other.release());
+		return *this;
+	}
 
 	//auto_ptr(auto_ptr<T>& rhs) :pointee_(rhs.release()) {}
 
-	template<class U>
-	auto_ptr(auto_ptr<U>& rhs) : pointee_(rhs.release()) {} //ÕâÀï×¢ÒâÒ»¶¨²»ÄÜÊÇconstµÄ
+	template <class U>
+	auto_ptr(auto_ptr<U> &rhs) : pointee_(rhs.release()) {} //è¿™é‡Œæ³¨æ„ä¸€å®šä¸èƒ½æ˜¯constçš„
 
-	T&  operator*() const { return *pointee_; }
-	T* operator->() const { return pointee_; } //ÕâÀï·µ»ØÖµÊÇÁíÍâÒ»¸ö¶ÔÏóÁË£¬ËùÒÔ²»ĞèÒª·µ»ØÖµÊÇconst£¬ÀïÃæµÄpointer_ÊÇÊ¼ÖÕ²»»áÊÜÓ°ÏìµÄ
-	//ÕâÀï¾ÍÊÇµ÷ÓÃµÄÊ±ºò obj->func() ,·µ»ØÖ¸ÕëÈ»ºóÖ¸ÕëµÄÄÚÖÃ²Ù×÷->
+	T &operator*() const { return *pointee_; }
+	T *operator->() const { return pointee_; } //è¿™é‡Œè¿”å›å€¼æ˜¯å¦å¤–ä¸€ä¸ªå¯¹è±¡äº†ï¼Œæ‰€ä»¥ä¸éœ€è¦è¿”å›å€¼æ˜¯constï¼Œé‡Œé¢çš„pointer_æ˜¯å§‹ç»ˆä¸ä¼šå—å½±å“çš„
+	//è¿™é‡Œå°±æ˜¯è°ƒç”¨çš„æ—¶å€™ obj->func() ,è¿”å›æŒ‡é’ˆç„¶åæŒ‡é’ˆçš„å†…ç½®æ“ä½œ->
 
-	T* get() const { return pointee_; }
+	T *get() const { return pointee_; }
 
-	T* release()
+	T *release()
 	{
-		T*p = get();
+		T *p = get();
 		pointee_ = NULL;
 		return p;
 	}
 
-	void reset(T* pointer)
+	void reset(T *pointer)
 	{
 		if (pointer != pointee_)
 		{
@@ -66,6 +64,6 @@ public:
 	//template<class U>
 	//operator auto_ptr<U>() { return auto_ptr<U>(pointee_); }
 
-private:
-	T * pointee_;
+  private:
+	T *pointee_;
 };

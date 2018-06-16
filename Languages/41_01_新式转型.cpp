@@ -1,7 +1,6 @@
 // 41_新式转型.cpp : 定义控制台应用程序的入口点。
 //
 
-#include "stdafx.h"
 #include <iostream>
 using namespace std;
 void doSomething(double &d) {}
@@ -52,13 +51,14 @@ int main()
 	Widget *w = new SpecialWidget;
 	//SpecialWidget *w1 = w;//报错
 	SpecialWidget *w1 = dynamic_cast<SpecialWidget*>(w); //要求类型必须具有多态性质(虚函数)
+	SpecialWidget *w2 = static_cast<SpecialWidget*>(w); //static_cast也可以，不过不一定安全
 	//SpecialWidget1 *w11 = dynamic_cast<SpecialWidget*>(w); //没有继承关系也不能转型
 
 
 	// 4.reinterpret_cast实现低级转型，比如pointer to int 转 int,或者int*直接转换成char *,转换后是很危险的
-	int *p1 = new int(10);
+	int *ip1 = new int(10);
 	//int i = p1; //报错
-	int i = reinterpret_cast<int>(p1); //打印出来就是指针的地址值
+	int i = reinterpret_cast<int>(ip1); //打印出来就是指针的地址值
 
 	// 5.以上四个，除了dynamic_cast旧式操作无法实现(也可以转，只是不检测是否可以正确的转型)
 	// 旧式操作都可以实现

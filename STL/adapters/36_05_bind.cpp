@@ -48,7 +48,5 @@ int main()
     int n1 = std::count_if(v.cbegin(),v.cend(),fn_);
 
     assert(n1==n);
-
-
     return 0;
 }

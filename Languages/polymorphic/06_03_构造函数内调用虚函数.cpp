@@ -11,6 +11,12 @@ public:
 	virtual void printInfo()
 	{
 		cout << "Parent:PrintInfo" << endl;
+		print(); //测试构造函数内调用虚函数，这个虚函数再调用虚函数,可以看到输出还是调用的Parent的版本
+		//因为虚拟机制本身必须知道这个调用是否源自于一个constructor中
+	}
+	virtual void print()
+	{
+		cout << "Parent:print" << endl;
 	}
 };
 
@@ -26,6 +32,12 @@ public:
 	{
 		cout << "Son:PrintInfo()" << endl;
 	}
+
+	virtual void print() override
+	{
+		cout << "Son:print" << endl;
+	}
+
 };
 
 int main()

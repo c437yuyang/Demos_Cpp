@@ -49,12 +49,16 @@ int main()
 		printf("%d,%d\n", i, *b);
 	}
 
-
 	//格式不匹配的情况
 	{
 		printf("\n");
 		printf("%f\n", 5);   //输出0.0000，注意%f是传入double的数
 		printf("%d\n", 5.1); //输出一个很大的数
+	}
+
+	{ //参数从右往左压栈，++j存的是引用，j++存的是值
+		int j = 0;
+		printf("%d,%d,%d", j++, j++, ++j); //输出2,1,3
 	}
 
 	system("pause");

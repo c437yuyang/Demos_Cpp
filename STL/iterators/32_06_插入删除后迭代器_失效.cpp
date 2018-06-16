@@ -1,7 +1,6 @@
 // 32_06_插入删除迭代器.cpp : 定义控制台应用程序的入口点。
 //
 
-#include "stdafx.h"
 //http://www.cnblogs.com/blueoverflow/p/4923523.html#_label2
 #include <vector>
 #include <list>

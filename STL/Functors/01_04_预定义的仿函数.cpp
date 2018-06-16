@@ -8,11 +8,11 @@
 
 class Widget
 {
-public:
-	Widget(int a, std::string b) :age(a), name(b) {}
+  public:
+	Widget(int a, std::string b) : age(a), name(b) {}
 	int age;
 	std::string name;
-	bool operator==(const Widget&other) const //成员版本一定要加上const,否则equal_to里面调用不了
+	bool operator==(const Widget &other) const //成员版本一定要加上const,否则equal_to里面调用不了
 	{
 		return this->age == other.age && this->name == other.name;
 	}
@@ -31,7 +31,8 @@ int main()
 	//std::negate<int> my_gt; //-
 	//std::minus<int> my_gt; //a-b
 	//std::multiplies<int> my_gt; //a*b
-	std::function<int(const std::string&)> func_ptr; //预定义的函数对象
+	
+
 	std::hash<int> int_hash;
 	std::hash<std::string> string_hash;
 	std::cout << int_hash(10) << std::endl; //返回的是size_t类型
@@ -48,9 +49,8 @@ int main()
 	Widget w3(2, "a");
 	std::cout << w_equal(w1, w2) << std::endl; //
 	std::cout << w_equal(w2, w3) << std::endl; //
-	std::cout << (w1 == w2) << std::endl; //
+	std::cout << (w1 == w2) << std::endl;	  //
 
 	system("pause");
 	return 0;
 }
-
