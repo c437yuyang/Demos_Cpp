@@ -1,7 +1,6 @@
 // 42_01_宽字符窄字符.cpp : 定义控制台应用程序的入口点。
 //
 
-#include "stdafx.h"
 #include <string>
 #include <iostream>
 #include <windows.h>

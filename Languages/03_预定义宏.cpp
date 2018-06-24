@@ -9,14 +9,17 @@ int main()
     cout << __DATE__ << endl; //当前时间
 
     cout << __STDC__ << endl; //这个一般没有
-    cout << __VA_ARGS__ << endl; //这个一般没有
+    // cout << __VA_ARGS__ << endl; //这个一般没有
 
-#ifdef __cplusplus__
-    cout << "defined" << endl;
+#ifdef __cplusplus
+    cout << __cplusplus << endl;
 #else
     cout << "not defined " << endl;
 #endif // DEBUG
 
+#ifdef _WIN32
+    cout << "win32" << endl;
+#endif
 
     system("pause");
     return 0;

@@ -9,9 +9,9 @@ int main()
     cout << __DATE__ << endl; //当前时间
 
     cout << __STDC__ << endl; //C语言里面这个有
-    cout << __VA_ARGS__ << endl; //这个一般没有
+    cout << __VA_ARGS__ << endl; //这个一般没有 //代表可变参数
 
-#ifdef __cplusplus__
+#ifdef __cplusplus
     cout << "defined" << endl;
 #else
     cout << "not defined " << endl;

@@ -9,6 +9,7 @@ void printFormat(const char *format, ...)
     va_list args;
     va_start(args, format);
     char *dst = new char[256];
+    //如果要一个一个获取的话，就用va_arg(args,int)这样
     vsnprintf(dst, 256, format, args); //必须先用这个函数生成格式化字符串
     printf(dst);
 

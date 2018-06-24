@@ -8,10 +8,12 @@
 void pause_thread(int n)
 {
 	std::this_thread::sleep_for(std::chrono::seconds(n));
+	// using namespace std::chrono_literals;
+	// std::this_thread::sleep_for(1s);
 	std::cout << "pause of " << n << " seconds ended\n";
 }
 
-int main()
+int main(
 {
 	std::cout << "Spawning 3 threads...\n";
 	std::thread t1(pause_thread, 1); //创建兵启动线程
