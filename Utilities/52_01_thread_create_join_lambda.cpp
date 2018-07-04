@@ -13,10 +13,10 @@ void pause_thread(int n)
 	std::cout << "pause of " << n << " seconds ended\n";
 }
 
-int main(
+int main()
 {
 	std::cout << "Spawning 3 threads...\n";
-	std::thread t1(pause_thread, 1); //创建兵启动线程
+	std::thread t1(pause_thread,1); //创建兵启动线程
 	std::thread t2(pause_thread, 2);
 	std::thread t3(pause_thread, 3);
 	std::cout << "Done spawning threads. Now waiting for them to join:\n";
@@ -34,7 +34,9 @@ int main(
 	auto func = [](const char *str) { std::cout << str << std::endl; };
 	std::thread t5(func, "hello world!");
 	std::thread t6(func, "hello beijing!");
-
+	t4.join();
+	t5.join();
+	t6.join();
 
 	system("pause");
 	return 0;

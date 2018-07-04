@@ -21,6 +21,24 @@ int main()
     cout << "win32" << endl;
 #endif
 
+#ifdef _WIN64
+    cout << "win64" << endl;
+#endif
+
+#ifdef _MSC_VER
+#endif
+
+#ifdef   __unix
+#endif
+#ifdef  __linux
+#endif 
+
+
+#ifdef  __GNUC__
+    cout << "GCC" << endl;
+#endif
+
+
     system("pause");
     return 0;
 }

@@ -11,7 +11,7 @@
 
 class Widget
 {
-public:
+  public:
 	int data;
 	Widget(int i) : data(i) {}
 	Widget(const Widget &other) : data(other.data) { std::cout << "copy ctor" << std::endl; }
@@ -22,7 +22,7 @@ public:
 //按照内存地址进行hash
 class Widget_MemAddr_Hash
 {
-public:
+  public:
 	size_t operator()(const Widget &w) const
 	{
 		return std::hash<int>()((int)&w);
@@ -31,7 +31,7 @@ public:
 
 class Widget_MemAddr_Equal : public std::binary_function<Widget, Widget, bool>
 {
-public:
+  public:
 	bool operator()(const Widget &left, const Widget &right) const
 	{
 		return &left == &right;
@@ -41,16 +41,17 @@ public:
 //按照指针地址进行hash
 class Widget_Ptr_Hash
 {
-public:
+  public:
 	size_t operator()(const Widget *w) const
 	{
 		return std::hash<int>()((int)w);
 	}
 };
 
+
 class Widget_Ptr_Equal : public std::binary_function<Widget, Widget, bool>
 {
-public:
+  public:
 	bool operator()(const Widget *left, const Widget *right) const
 	{
 		return left == right;
@@ -60,7 +61,7 @@ public:
 //按照内容进行hash
 class Widget_Datum_Hash
 {
-public:
+  public:
 	size_t operator()(const Widget &w) const
 	{
 		return std::hash<int>()(w.data);
@@ -69,7 +70,7 @@ public:
 
 class Widget_Datum_Equal : public std::binary_function<Widget, Widget, bool>
 {
-public:
+  public:
 	bool operator()(const Widget &left, const Widget &right) const
 	{
 		return left.data == right.data;
@@ -79,13 +80,13 @@ public:
 //复杂类型hash示例:参考https://blog.csdn.net/zhangpiu/article/details/49837387
 class Widget_Complex
 {
-public:
+  public:
 	Widget_Complex(int i, int i1, std::string str) : data(i), data1(i1), str_data_(str) {}
 	bool operator==(const Widget_Complex &rhs) const
 	{
 		return rhs.data == data &&
-					 rhs.data1 == data1 &&
-					 rhs.str_data_ == str_data_;
+			   rhs.data1 == data1 &&
+			   rhs.str_data_ == str_data_;
 	}
 	int data;
 	int data1;
@@ -93,12 +94,12 @@ public:
 };
 class Widget_Complex_Hash
 {
-public:
+  public:
 	size_t operator()(const Widget_Complex &w) const
 	{
 		return std::hash<int>()(w.data) ^
-					 std::hash<int>()(w.data1) ^
-					 std::hash<std::string>()(w.str_data_);
+			   std::hash<int>()(w.data1) ^
+			   std::hash<std::string>()(w.str_data_);
 	}
 };
 
@@ -107,9 +108,9 @@ template <typename T>
 inline void hash_combine(size_t &seed, const T &val)
 {
 	seed ^= std::hash<T>()(val) +
-					0x9e3779b9 + //这个数是来源于黄金分割
-					(seed << 6) +
-					(seed >> 2);
+			0x9e3779b9 + //这个数是来源于黄金分割
+			(seed << 6) +
+			(seed >> 2);
 }
 
 template <typename T>
@@ -136,7 +137,7 @@ inline size_t hash_val(const Types &... args)
 //使用的时候:
 class WidgetHasher
 {
-public:
+  public:
 	size_t operator()(const Widget_Complex &cw) const
 	{
 		return hash_val(cw.data, cw.data1, cw.str_data_); //这里传入每个成员即可
