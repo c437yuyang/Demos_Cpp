@@ -16,6 +16,8 @@ int main()
 
 	cout << m1["aa"] << endl;
 	cout << m1.at("aa") << endl;
+	cout << m1["b"] << endl; //不存在的情况不会报错，为默认值，int是0,unordered_map也是类似
+	cout << m1.at("c") << endl; //.at就会报错，内部有校验
 
 	pair<map<string, int>::iterator, bool> result =
 		m1.insert(map<string, int>::value_type("aaaa", 4)); //map的insert返回的是一个pair类型

@@ -1,7 +1,6 @@
 // 34_01_io流.cpp : 定义控制台应用程序的入口点。
 //
 
-#include "stdafx.h"
 #include <iostream>
 #include <string>  //包含geiline(istream,string)
 #include <stdio.h>
@@ -51,6 +50,8 @@ int main()
 	//	std::cout << str1 << std::endl;
 	//}
 
+
+
 	//读入1,-2,3,-4这种以逗号分隔字符串的内容
 	string ss;
 	cin >> ss; //先通过这个读入整个字符串，再用stringstream读才行，不知道为啥直接getline用分隔符不行
@@ -59,7 +60,7 @@ int main()
 	std::string tmp;
 	std::vector<int> v;
 	//while (!std::getline(std::cin, tmp, ',').eof())
-	while (std::getline(sstr, tmp, ','))
+	while (std::getline(sstr, tmp, ',')) //getline()返回的是流本身，而流本身是实现了operator bool()的，因此可以用这个返回值检测输入是否结束
 	{
 		v.push_back(stoi(tmp));
 	}

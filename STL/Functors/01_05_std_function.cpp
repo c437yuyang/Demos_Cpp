@@ -24,7 +24,7 @@ struct PrintNum
 
 int main()
 {
-
+    //std::function(ret(params))
     std::function<std::string(const std::string &)> echo;
 
     echo =
