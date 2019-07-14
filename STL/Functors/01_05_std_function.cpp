@@ -7,6 +7,9 @@ struct Foo
     Foo(int num) : num_(num) {}
     void print_add(int i) const { std::cout << num_ + i << '\n'; }
     int num_;
+
+  private:
+    void print_add_private(int i) const { std::cout << num_ + i << '\n'; }
 };
 
 void print_num(int i)
@@ -30,8 +33,8 @@ int main()
     echo =
         [](const std::string &val) -> std::string { return val; }; //
     std::cout << echo("abc") << std::endl;
-    
-        echo =
+
+    echo =
         [](const std::string &val) { return val; }; //不要尾置返回类型也是可以的
     std::cout << echo("abc") << std::endl;
 
@@ -52,6 +55,8 @@ int main()
     const Foo foo(314159);
     f_add_display(foo, 1);
     f_add_display(314159, 1);
+
+    // std::function<void(const Foo &, int)> f_add_display_private = &Foo::print_add_private; //cannot access private member 
 
     // store a call to a data member accessor
     std::function<int(Foo const &)> f_num = &Foo::num_;

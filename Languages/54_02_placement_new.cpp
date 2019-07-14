@@ -46,7 +46,6 @@
 //原型中void* p实际上就是指向一个已经分配好的内存缓冲区的的首地址。
 //////////////////////////////////////////////////////////////////////////
 
-
 //////////////////////////////////////////////////////////////////////////
 
 //Placement new使用步骤
@@ -95,16 +94,21 @@
 //
 //跳过任何步骤就可能导致运行时间的崩溃，内存泄露，以及其它的意想不到的情况。如果你确实需要使用placement new，请认真遵循以上的步骤。
 
+//placement new 也是可以调用copy ctor的,这也是vector等容器的实现方式
+
 ////////////////////////////////////////////////////////////////////////
 #include <iostream>
 using namespace std;
 
 class X
 {
-public:
+  public:
 	X() { cout << "constructor of X" << endl; }
-	~X() { cout << "destructor of X" << endl; }
 
+	X(const X &rhs) : num(rhs.num) { cout << "copy constructor of X" << endl; } //placement new 也是可以调用copy ctor的,这也是vector等容器的实现方式
+
+	~X() { cout << "destructor of X" << endl; }
+	X(int num) : num(num) { cout << "constructor of X with num" << endl; }
 	void SetNum(int n)
 	{
 		num = n;
@@ -115,31 +119,41 @@ public:
 		return num;
 	}
 
-private:
+  private:
 	int num;
 };
 
 int main()
 {
-	char* buf = new char[sizeof(X)]; //分配内存(用的是new char,或者直接malloc)，但是没有调用构造函数
-	X *px = new(buf) X; //调用placement new 执行构造函数
-	px->SetNum(10); //使用对象
-	cout << px->GetNum() << endl;
-	px->~X(); //显示析构
-	//delete[]buf; //清除缓存
-	operator delete[] (buf); //个人感觉应该这意图更明确吧，operator delete[] 只删除内存
-	
+	//例子1
+	{
+		char *buf = new char[sizeof(X)]; //分配内存(用的是new char,或者直接malloc)，但是没有调用构造函数
+		X *px = new (buf) X;			 //调用placement new 执行构造函数
+		px->SetNum(10);					 //使用对象
+		cout << px->GetNum() << endl;
+		px->~X(); //显示析构
+		//delete[]buf; //清除缓存
+		operator delete[](buf); //个人感觉应该这意图更明确吧，operator delete[] 只删除内存
+	}
+
 	//例子2
 	{
-		X* p = (X*)::operator new(sizeof(X)); //分配  
-
-		new(p) X(); //构造  
-
-		p->~X();   //析构  
-
+		X *p = (X *)::operator new(sizeof(X)); //分配
+		new (p) X(1);						   //构造
+		cout << p->GetNum() << endl;
+		p->~X();			  //析构
 		::operator delete(p); //释放
-
 	}
 	
+	//例子3 调用copy ctor
+	{
+		X x(1);
+		X *p = (X *)::operator new(sizeof(X)); //分配
+		new (p) X(x);						   //copy构造
+		cout << p->GetNum() << endl;
+		p->~X();			  //析构
+		::operator delete(p); //释放
+	}
+
 	return 0;
 }

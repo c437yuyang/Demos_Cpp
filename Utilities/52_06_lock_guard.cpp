@@ -13,7 +13,7 @@ void print_even (int x) {
 void print_thread_id (int id) {
     try {
         // using a local lock_guard to lock mtx guarantees unlocking on destruction / exception:
-        std::lock_guard<std::mutex> lck (mtx);
+        std::lock_guard<std::mutex> lck (mtx); //也可以用unique_lock,是lock_guard的增强版，使用上基本一致，只是多些功能
         print_even(id);
     }
     catch (std::logic_error&) {

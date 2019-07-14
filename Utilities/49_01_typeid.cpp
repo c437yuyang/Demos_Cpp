@@ -1,10 +1,8 @@
 // 49_01_typeid.cpp : 定义控制台应用程序的入口点。
 //
 
-#include "stdafx.h"
-
-
 #include <iostream>  
+#include <typeinfo>
 using namespace std;
 
 class Base {};
@@ -16,7 +14,7 @@ int main()
 	pb = NULL;
 	Derived d;
 
-	cout << typeid(int).name() << endl
+	cout << typeid(int).name() << endl //
 		<< typeid(int *).name() << endl //int *
 		<< typeid(int &).name() << endl //int 
 		<< typeid(unsigned).name() << endl

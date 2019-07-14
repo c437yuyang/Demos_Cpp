@@ -14,6 +14,7 @@ bool UDgreater(int elem1, int elem2)
 //通过调用nth_element(start, start+n, end) 方法可以"使第n大元素处于第n位置"（从0开始,其位置是下标为 n的元素）
 //并且比这个元素小的元素都排在这个元素之前，比这个元素大的元素都排在这个元素之后，但不能保证他们是有序的
 //VS里面的实现是直接数组全体排序了的，和标准STL定义的不一样
+//GCC的实现是对的
 int main()
 {
 	using namespace std;

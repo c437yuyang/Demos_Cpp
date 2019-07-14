@@ -39,7 +39,6 @@
 //尤其在那些需要动态分配大量的但很小的对象的应用程序里，情况更是如此。
 //具体可参考《Effective C++》中的第二章内存管理。
 
-#include "stdafx.h"
 #include <iostream>
 #include <string>
 #include <new>
@@ -91,7 +90,7 @@ int main()
 	delete px; //还是会调用单参数版本的operator delete
 	delete px1;
 
-	X*px2 = (X *)operator new(sizeof(X)); //调用的全局的
+	X*px2 = (X *)::operator new(sizeof(X)); //调用的全局的
 	X*px3 = (X *)X::operator new(sizeof(X)); //调用的X的静态函数
 	
 	//但是在重载了operator new的情况下，就没法构造对象了吗? (不能使用placement new了)

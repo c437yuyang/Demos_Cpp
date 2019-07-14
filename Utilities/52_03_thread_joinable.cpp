@@ -1,9 +1,6 @@
 // 52_03_thread_joinable.cpp : 定义控制台应用程序的入口点。
 //
 
-#include "stdafx.h"
-
-
 #include <iostream>       // std::cout
 #include <thread>         // std::thread
 
@@ -13,7 +10,6 @@ void mythread()
 }
 
 //一旦 detached, 就不能再join 
-
 int main()
 {
 	std::thread foo;

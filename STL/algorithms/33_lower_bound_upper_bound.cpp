@@ -1,66 +1,45 @@
-// alg_nth_elem.cpp
-// compile with: /EHsc
-#include <vector>
 #include <algorithm>
-#include <functional>      // For greater<int>( )
 #include <iostream>
+#include <iterator>
+#include <vector>
 
-// Return whether first element is greater than the second
-bool UDgreater(int elem1, int elem2)
-{
-	return elem1 > elem2;
+/*
+* lower_bound(),返回把新值安插进去不违背排序状态的**最下边界**，所以如果有的话就是第一个出现这个值的地方，如果没有的话，就是第一个大于这个值的位置
+// 就是第一个大于等于当前数的位置
+* upper_bound(),返回把新值安插进去不违背排序状态的**最上边界**，所以如果有的话，就是所有这个值出现后的下一个位置，如果不存在的话，就是最后一个小于这个值的位置+1
+// 就是小于等于当前数的最后一个位置+1
+*/
+
+
+template<class ForwardIt, class T, class Compare = std::less<>>
+ForwardIt binary_find(ForwardIt first, ForwardIt last, const T& value, Compare comp = {}) {
+	// Note: BOTH type T and the type after ForwardIt is dereferenced 
+	// must be implicitly convertible to BOTH Type1 and Type2, used in Compare. 
+	// This is stricter than lower_bound requirement (see above)
+
+	first = std::lower_bound(first, last, value, comp);
+	return first != last && !comp(value, *first) ? first : last;
 }
-//STL中的nth_element()方法的使用 
-//通过调用nth_element(start, start+n, end) 方法可以"使第n大元素处于第n位置"（从0开始,其位置是下标为 n的元素）
-//并且比这个元素小的元素都排在这个元素之前，比这个元素大的元素都排在这个元素之后，但不能保证他们是有序的
-//VS里面的实现是直接数组全体排序了的，和标准STL定义的不一样
-int main()
-{
-	using namespace std;
-	vector <int> v1;
-	vector <int>::iterator Iter1;
 
-	int i;
-	for (i = 0; i <= 5; i++)
-		v1.push_back(3 * i);
+int main() {
+	std::vector<int> data = { 1, 1, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 6 };
+	//std::vector<int> data = { 1, 1, 2, 3, 3, 3, 3};
 
-	int ii;
-	for (ii = 0; ii <= 5; ii++)
-		v1.push_back(3 * ii + 1);
+	auto lower = std::lower_bound(data.begin(), data.end(), 4);
+	auto upper = std::upper_bound(data.begin(), data.end(), 4);
 
-	int iii;
-	for (iii = 0; iii <= 5; iii++)
-		v1.push_back(3 * iii + 2);
+	std::copy(lower, upper, std::ostream_iterator<int>(std::cout, " "));
 
-	cout << "Original vector:\n v1 = ( ";
-	for (Iter1 = v1.begin(); Iter1 != v1.end(); Iter1++)
-		cout << *Iter1 << " ";
-	cout << ")" << endl;
+	std::cout << '\n';
 
-	nth_element(v1.begin(), v1.begin() + 3, v1.end());
-	cout << "Position 3 partitioned vector:\n v1 = ( ";
-	for (Iter1 = v1.begin(); Iter1 != v1.end(); Iter1++)
-		cout << *Iter1 << " ";
-	cout << ")" << endl;
+	// classic binary search, returning a value only if it is present
 
-	// To sort in descending order, specify binary predicate
-	nth_element(v1.begin(), v1.begin() + 4, v1.end(),
-		greater<int>());
-	cout << "Position 4 partitioned (greater) vector:\n v1 = ( ";
-	for (Iter1 = v1.begin(); Iter1 != v1.end(); Iter1++)
-		cout << *Iter1 << " ";
-	cout << ")" << endl;
+	data = { 1, 2, 4, 6, 9, 10 };
 
-	random_shuffle(v1.begin(), v1.end());
-	cout << "Shuffled vector:\n v1 = ( ";
-	for (Iter1 = v1.begin(); Iter1 != v1.end(); Iter1++)
-		cout << *Iter1 << " ";
-	cout << ")" << endl;
+	auto it = binary_find(data.cbegin(), data.cend(), 4); //< choosing '5' will return end()
 
-	// A user-defined (UD) binary predicate can also be used
-	nth_element(v1.begin(), v1.begin() + 5, v1.end(), UDgreater);
-	cout << "Position 5 partitioned (UDgreater) vector:\n v1 = ( ";
-	for (Iter1 = v1.begin(); Iter1 != v1.end(); Iter1++)
-		cout << *Iter1 << " ";
-	cout << ")" << endl;
+	if (it != data.cend())
+		std::cout << *it << " found at index " << std::distance(data.cbegin(), it);
+
+	return 0;
 }

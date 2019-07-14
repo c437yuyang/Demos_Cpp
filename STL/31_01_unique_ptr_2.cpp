@@ -43,6 +43,9 @@ int main()
                                                       // as a pointer to base
         p->bar();                                     // virtual dispatch
 
+        std::unique_ptr<B> pB(new D);
+        pB->bar(); //可以直接用多态
+
         std::vector<std::unique_ptr<B>> v; // unique_ptr can be stored in a container
         v.push_back(std::unique_ptr<D>(new D));
         v.push_back(std::move(p));
@@ -74,4 +77,13 @@ int main()
     {
         std::unique_ptr<D[]> p{new D[3]};
     } // calls ~D 3 times
+
+
+    //类型转换方面的demo,配合more effective M28
+    std::cout << "non-const to const demo" << std::endl;
+    {
+        std::unique_ptr<D> uD(new D);
+        // std::unique_ptr<const D> udc = uD; //是不支持的，stl实现的
+        std::unique_ptr<B> uB = uD; //也不支持
+    }
 }

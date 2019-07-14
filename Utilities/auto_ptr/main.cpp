@@ -2,7 +2,7 @@
 #include "auto_ptr.h"
 #include <utility>
 #include <algorithm>
-
+using namespace yxp_utility;
 class Widget
 {
 

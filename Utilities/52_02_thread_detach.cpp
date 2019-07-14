@@ -1,9 +1,5 @@
 // 52_02_thread_detach.cpp : 定义控制台应用程序的入口点。
 //
-
-#include "stdafx.h"
-
-
 #include <iostream>       // std::cout
 #include <thread>         // std::thread, std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
